@@ -1,4 +1,0 @@
------- - name: Install Apache# tasks file for roles/webserver package: name: httpd state: present - name: Start and enable Apache 
-  service:
-    name: httpd state: started enabled: true - name: Create homepage copy: dest: /var/www/html/index.html content: "{{ 
-    homepage_content }}"
