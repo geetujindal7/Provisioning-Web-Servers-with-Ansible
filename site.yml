@@ -4,7 +4,7 @@
   become: yes
   vars:
     app_root: html_demo_site-main
-    server_name: "{{ ansible_default_ipv4.address }}"
+    server_name: "{{ ansible_default_ipv4.address | default('localhost') }}"
   pre_tasks:
     - name: Install firewalld if not present
       ansible.builtin.package:
