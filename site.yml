@@ -1,6 +1,6 @@
 ---
 - name: Configure Azure Webservers
-  hosts: webservers
+  hosts: azure
   become: true
 
   tasks:
