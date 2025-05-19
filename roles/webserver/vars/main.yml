@@ -1,2 +1,2 @@
 webserver: nginx
-server_name: localhost
+# /server_name: localhost
