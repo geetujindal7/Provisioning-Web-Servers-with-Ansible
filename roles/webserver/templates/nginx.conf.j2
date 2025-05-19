@@ -14,7 +14,7 @@ http {
 
   server {
     listen       80;
-    server_name  {{ server_name }};
+    server_name  {{ server_name | default(ansible_hostname) }};
     root         /var/www/html/www.companyplus.com/{{ app_root }};
 
     location / {
