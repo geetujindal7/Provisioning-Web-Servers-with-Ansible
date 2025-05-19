@@ -1,0 +1,5 @@
+--- - name: Configure Azure Webservers hosts: azure become: true tasks: - name: Open ports 80 and 443 firewalld: port: "{{ item }}" 
+        permanent: yes state: enabled immediate: yes
+      with_items: - 80/tcp - 443/tcp - name: Ensure /var/www directory exists file: path: /var/www state: directory roles: - role: 
+    webserver
+      vars: homepage_content: "Welcome to Azure Webserver"
