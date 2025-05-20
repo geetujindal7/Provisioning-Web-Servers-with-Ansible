@@ -15,8 +15,43 @@
     - www.companyplus.com
     - www.companypulsar.com
 
+- name: Add index.html to each website
+  ansible.builtin.copy:
+    dest: "/var/www/html/{{ item }}/index.html"
+    content: "<html><body><h1>Welcome to {{ item }}</h1></body></html>"
+    owner: nginx
+    group: nginx
+    mode: '0644'
+  loop:
+    - www.companyplus.com
+    - www.companypulsar.com
+
 - name: Deploy nginx configuration
   ansible.builtin.template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
   notify: restart nginx
+
+- name: Deploy virtual host configuration for each site
+  ansible.builtin.template:
+    src: vhost.conf.j2
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  loop:
+    - www.companyplus.com
+    - www.companypulsar.com
+  notify: restart nginx
+
+- name: Check if /var/www/html/www.companyplus.com directory exists
+  ansible.builtin.stat:
+    path: /var/www/html/www.companyplus.com
+  register: dir_status
+
+- name: Show message if directory exists
+  ansible.builtin.debug:
+    msg: "/var/www/html/www.companyplus.com exists."
+  when: dir_status.stat.exists
+
+- name: Fail if directory does not exist
+  ansible.builtin.fail:
+    msg: "ERROR: /var/www/html/www.companyplus.com does not exist!"
+  when: not dir_status.stat.exists

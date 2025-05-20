@@ -5,6 +5,11 @@
   vars:
     app_root: html_demo_site-main
     server_name: "{{ ansible_default_ipv4.address | default('localhost') }}"
+    ports:
+      - 80
+      - 443
+    webserver: nginx
+
   pre_tasks:
     - name: Install firewalld if not present
       ansible.builtin.package:
@@ -17,7 +22,7 @@
         state: started
         enabled: yes
 
-    - name: Open required ports
+    - name: Open required ports using firewalld
       ansible.posix.firewalld:
         port: "{{ item }}/tcp"
         permanent: yes
@@ -26,7 +31,4 @@
       loop: "{{ ports }}"
 
   roles:
-    - role: webserver
-      vars:
-        app_root: html_demo_site-main
-        # server_name: "{{ server_name }}"
+    - webserver
