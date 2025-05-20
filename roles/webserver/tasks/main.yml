@@ -15,6 +15,17 @@
     - www.companyplus.com
     - www.companypulsar.com
 
+- name: Add index.html to each website
+  ansible.builtin.copy:
+    dest: "/var/www/html/{{ item }}/index.html"
+    content: "<html><body><h1>Welcome to {{ item }}</h1></body></html>"
+    owner: nginx
+    group: nginx
+    mode: '0644'
+  loop:
+    - www.companyplus.com
+    - www.companypulsar.com
+
 - name: Deploy nginx configuration
   ansible.builtin.template:
     src: nginx.conf.j2
