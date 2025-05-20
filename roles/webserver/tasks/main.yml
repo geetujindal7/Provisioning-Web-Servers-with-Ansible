@@ -75,3 +75,8 @@
     msg: "ERROR: /var/www/html/www.companyplus.com does not exist!"
   when: not dir_status.stat.exists
 
+- name: Deploy nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
