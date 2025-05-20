@@ -8,6 +8,7 @@
     ports:
       - 80
       - 443
+    webserver: nginx
 
   pre_tasks:
     - name: Install firewalld if not present
@@ -21,7 +22,7 @@
         state: started
         enabled: yes
 
-    - name: Open required ports
+    - name: Open required ports using firewalld
       ansible.posix.firewalld:
         port: "{{ item }}/tcp"
         permanent: yes
