@@ -59,3 +59,19 @@
     state: enabled
     immediate: true
   loop: "{{ ports }}"
+
+  - name: Check if companyplus directory exists
+  stat:
+    path: /var/www/html/www.companyplus.com
+  register: dir_status
+
+- name: Debug if directory exists
+  debug:
+    msg: "/var/www/html/www.companyplus.com exists."
+  when: dir_status.stat.exists
+
+- name: Debug if directory missing
+  debug:
+    msg: "ERROR: /var/www/html/www.companyplus.com does not exist!"
+  when: not dir_status.stat.exists
+
