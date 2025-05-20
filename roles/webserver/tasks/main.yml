@@ -60,7 +60,7 @@
     immediate: true
   loop: "{{ ports }}"
 
-  - name: Check if companyplus directory exists
+- name: Check if companyplus directory exists
   stat:
     path: /var/www/html/www.companyplus.com
   register: dir_status
