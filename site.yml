@@ -3,8 +3,6 @@
   hosts: azure
   become: yes
   vars:
-    app_root: html_demo_site-main
-    server_name: "{{ ansible_default_ipv4.address | default('localhost') }}"
     ports:
       - 80
       - 443
@@ -31,4 +29,8 @@
       loop: "{{ ports }}"
 
   roles:
-    - webserver
+    - role: webserver
+      vars:
+        app_root: html_demo_site-main
+        server_name: "{{ ansible_default_ipv4.address }}"
+        document_root: /var/www/html
